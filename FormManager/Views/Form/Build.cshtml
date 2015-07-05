@@ -1,0 +1,62 @@
+﻿
+@{
+    ViewBag.Title = "Build";
+}
+
+<h2>Build</h2>
+
+<div class="container" ng-app="formBuilderApp">
+
+    <div class="row">
+
+        <h3>AngularJS Dynamic Form Fields</h3>
+
+        <hr />
+
+        <div ng-controller="FormCtrl" >
+            <fieldset data-ng-repeat="choice in choices" class="form-group">
+                <select class="form-control col-md-1">
+                    <option>Mobile</option>
+                    <option>Office</option>
+                    <option>Home</option>
+                </select>
+                <input class="form-control col-md-3" type="text" ng-model="choice.name" name="" placeholder="Enter mobile number">
+                <button class="btn btn-danger" ng-show="$last" ng-click="removeChoice()">-</button>
+            </fieldset>
+            <button class="addfields" ng-click="addNewChoice()">Add fields</button>
+
+            <div id="choicesDisplay">
+                {{ choices }}
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/Scripts/angular.js")
+
+    <script>
+        var app = angular.module('formBuilderApp', []);
+
+        app.controller('FormCtrl', function ($scope) {
+
+            $scope.choices = [{ id: 'choice1' }, { id: 'choice2' }];
+
+            $scope.addNewChoice = function () {
+                var newItemNo = $scope.choices.length + 1;
+                $scope.choices.push({ 'id': 'choice' + newItemNo });
+            };
+
+            $scope.removeChoice = function () {
+                var lastItem = $scope.choices.length - 1;
+                $scope.choices.splice(lastItem);
+            };
+
+        });
+    </script>
+}
