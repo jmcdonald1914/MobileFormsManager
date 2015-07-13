@@ -1,4 +1,5 @@
-﻿
+﻿@model FormManager.Models.Form
+
 @{
     ViewBag.Title = "Build";
 }
@@ -13,17 +14,28 @@
 
         <hr />
 
-        <div ng-controller="FormCtrl" >
-            <fieldset data-ng-repeat="choice in choices" class="form-group">
-                <select class="form-control col-md-1">
-                    <option>Mobile option</option>> 
-                    <option>Office</option>
-                    <option>Home</option>
-                </select>
-                <input class="form-control col-md-3" type="text" ng-model="choice.name" name="" placeholder="Enter mobile number">
-                <button class="btn btn-danger" ng-show="$last" ng-click="removeChoice()">-</button>
-            </fieldset>
-            <button class="addfields" ng-click="addNewChoice()">Add fields</button>
+        <div ng-controller="FormCtrl">
+            <button class="btn btn-default" ng-click="saveForm()">Save Changes</button>
+            <div ng-repeat="question in formViewModel.Questions">
+                <div class="form-group">
+                    <label>Question {{$index + 1}}</label>
+                    <textarea type="text" class="form-control" placeholder="Enter Question" ng-model="question.Description" rows="5"></textarea>
+                </div>
+                <hr />
+
+                <fieldset data-ng-repeat="answer in question.Answers" class="form-group">
+                    <input class="form-control col-md-3" type="text" ng-model="answer.Description" name="" placeholder="Enter Answer Text">
+                    <select class="form-control col-md-1" ng-model="answer.NextQuestionId" ng-options="q.Id as q.Description for q in formViewModel.Questions">
+                        @*<option>Mobile option</option>>
+                            <option>Office</option>
+                            <option>Home</option>*@
+                    </select>
+                    <button class="btn btn-danger" ng-show="$last" ng-click="">-</button>
+                </fieldset>
+                <button class="addfields" ng-click="">Add fields</button>
+            </div>
+            <hr />
+
 
             <div id="choicesDisplay">
                 {{ choices }}
@@ -43,7 +55,30 @@
     <script>
         var app = angular.module('formBuilderApp', []);
 
-        app.controller('FormCtrl', function ($scope) {
+        var formViewModel = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(this.Model));
+
+        app.value("formViewModel",formViewModel);
+
+        app.controller('FormCtrl', function ($scope,$http, formViewModel) {
+
+            $scope.formViewModel=formViewModel;
+           
+            $scope.saveForm=function () {
+               
+                $http.post('/Form/Update', $scope.formViewModel).
+                      success(function(data, status, headers, config) {
+                          alert("success");
+                          // this callback will be called asynchronously
+                          // when the response is available
+                      }).
+                      error(function(data, status, headers, config) {
+                          alert("failure");
+                          // called asynchronously if an error occurs
+                          // or server returns response with an error status.
+                      });
+                
+            };
+
 
             $scope.choices = [{ id: 'choice1' }, { id: 'choice2' }];
 

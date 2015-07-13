@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -10,9 +11,10 @@ namespace FormManager.Models
     {
         public int Id { get; set; }
         public string Description { get; set;}
+    
         public int NextQuestionId { get; set; }
 
-        [ForeignKey("NextQuestionId")]
-        public virtual Question NextQuestion { get; set; }
+       [JsonIgnore]
+        public virtual Question Question { get; set; }
     }
 }

@@ -46,6 +46,9 @@
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="RefactorThis.GraphDiff">
+      <HintPath>..\packages\RefactorThis.GraphDiff.2.0.1\lib\RefactorThis.GraphDiff.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -128,12 +131,21 @@
     <Compile Include="Migrations\201507031802147_Initial.Designer.cs">
       <DependentUpon>201507031802147_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507130510335_Forms_1_0.cs" />
+    <Compile Include="Migrations\201507130510335_Forms_1_0.Designer.cs">
+      <DependentUpon>201507130510335_Forms_1_0.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507130524442_Forms_1_1.cs" />
+    <Compile Include="Migrations\201507130524442_Forms_1_1.Designer.cs">
+      <DependentUpon>201507130524442_Forms_1_1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Answer.cs" />
     <Compile Include="Models\Form.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\Question.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FormService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -976,6 +988,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201507031802147_Initial.resx">
       <DependentUpon>201507031802147_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507130510335_Forms_1_0.resx">
+      <DependentUpon>201507130510335_Forms_1_0.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507130524442_Forms_1_1.resx">
+      <DependentUpon>201507130524442_Forms_1_1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
