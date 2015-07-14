@@ -127,6 +127,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\JsonNetResult.cs" />
     <Compile Include="Migrations\201507031802147_Initial.cs" />
     <Compile Include="Migrations\201507031802147_Initial.Designer.cs">
       <DependentUpon>201507031802147_Initial.cs</DependentUpon>

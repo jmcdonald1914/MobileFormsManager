@@ -1,7 +1,17 @@
-﻿
+﻿@model IList<FormManager.Models.Form>
+
 @{
     ViewBag.Title = "Menu";
 }
 
-<h2>Menu</h2>
+<h3>Menu</h3>
+<hr/>
+ @Html.ActionLink("New Form", "AddForm", "Form", null, new { @class = "btn btn-info" })   
+<hr/>
+<div class="list-group">
+   @foreach (var frm in Model) { 
+    <a href="@Url.Action("Build", "Form", new { formId= frm.Id})" class="list-group-item">@frm.Name</a>
+   }
+</div>
+<hr/>
 

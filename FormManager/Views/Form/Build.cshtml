@@ -4,43 +4,64 @@
     ViewBag.Title = "Build";
 }
 
-<h2>Build</h2>
+<h3>Mobile Form Builder</h3>
 
 <div class="container" ng-app="formBuilderApp">
 
     <div class="row">
 
-        <h3>AngularJS Dynamic Form Fields</h3>
+        
 
         <hr />
 
         <div ng-controller="FormCtrl">
-            <button class="btn btn-default" ng-click="saveForm()">Save Changes</button>
-            <div ng-repeat="question in formViewModel.Questions">
+            <button class="btn btn-success" ng-click="saveForm()">Save Changes</button>
+            <hr/>
+            
+            <div class="form-group">
+                <label>Form name</label>
+
+                <input type="text" class="form-control" placeholder="Name" ng-model="formViewModel.Name" />
+
+
+            </div>
                 <div class="form-group">
-                    <label>Question {{$index + 1}}</label>
-                    <textarea type="text" class="form-control" placeholder="Enter Question" ng-model="question.Description" rows="5"></textarea>
+                    <label>Description</label>
+                    
+                    <textarea type="text" class="form-control" placeholder="Description" ng-model="formViewModel.Description" rows="5"></textarea>
+
+
+                </div>
+                <hr/>
+                <div ng-repeat="question in formViewModel.Questions">
+                    <div class="form-group">
+                        <label>Question {{$index + 1}} - {{question.Description}}</label> | <button class="btn btn-danger" ng-click="removeQuestion($index)">Remove</button>
+                        <hr />
+                        <textarea type="text" class="form-control" placeholder="Enter Question" ng-model="question.Description" rows="5"></textarea>
+
+
+                    </div>
+                    <hr />
+                    <button class="btn btn-info" ng-click="addAnswer($index)">Add Answer</button>
+                    <hr />
+                    <fieldset data-ng-repeat="answer in question.Answers" class="form-group">
+                        <input class="form-control col-md-3" type="text" ng-model="answer.Description" name="" placeholder="Enter Answer Text">
+                        <select class="form-control col-md-1" ng-model="answer.NextQuestionId" ng-options="q.Id as q.Description for q in formViewModel.Questions">
+                            @*<option>Mobile option</option>>
+                        <option>Office</option>
+                        <option>Home</option>*@
+                        </select>
+                        <button class="btn btn-danger" ng-click="removeAnswer($parent.$index,$index)">x</button>
+                    </fieldset>
+
                 </div>
                 <hr />
+                <button class="btn btn-info" ng-click="addQuestion()">New Question</button>
+                <hr />
 
-                <fieldset data-ng-repeat="answer in question.Answers" class="form-group">
-                    <input class="form-control col-md-3" type="text" ng-model="answer.Description" name="" placeholder="Enter Answer Text">
-                    <select class="form-control col-md-1" ng-model="answer.NextQuestionId" ng-options="q.Id as q.Description for q in formViewModel.Questions">
-                        @*<option>Mobile option</option>>
-                            <option>Office</option>
-                            <option>Home</option>*@
-                    </select>
-                    <button class="btn btn-danger" ng-show="$last" ng-click="">-</button>
-                </fieldset>
-                <button class="addfields" ng-click="">Add fields</button>
+
+                
             </div>
-            <hr />
-
-
-            <div id="choicesDisplay">
-                {{ choices }}
-            </div>
-        </div>
 
     </div>
 
@@ -67,29 +88,49 @@
                
                 $http.post('/Form/Update', $scope.formViewModel).
                       success(function(data, status, headers, config) {
-                          alert("success");
+                          alert("Form Saved");
                           // this callback will be called asynchronously
                           // when the response is available
                       }).
                       error(function(data, status, headers, config) {
-                          alert("failure");
+                          //alert("failure");
                           // called asynchronously if an error occurs
                           // or server returns response with an error status.
                       });
                 
             };
 
+            $scope.addQuestion = function () {
 
-            $scope.choices = [{ id: 'choice1' }, { id: 'choice2' }];
-
-            $scope.addNewChoice = function () {
-                var newItemNo = $scope.choices.length + 1;
-                $scope.choices.push({ 'id': 'choice' + newItemNo });
+                var newQuestion={
+                    Id: 0,
+                    Description: "Enter Question",
+                    Answers:[{
+                        Id: 0,
+                        Description: "Enter Answer",
+                        NextQuestionId: 0
+                    }]
+                };
+                $scope.formViewModel.Questions.push(newQuestion);
             };
 
-            $scope.removeChoice = function () {
-                var lastItem = $scope.choices.length - 1;
-                $scope.choices.splice(lastItem);
+            $scope.removeQuestion = function (index) {
+                $scope.formViewModel.Questions.splice(index);
+            };
+
+            $scope.addAnswer = function (index) {
+                //var newAnswer = $scope.choices.length + 1;
+
+                var newAnswer={
+                    Id: 0,
+                    Description: "Enter Answer",
+                    NextQuestionId: 0
+                }
+                $scope.formViewModel.Questions[index].Answers.push(newAnswer);
+            };
+
+            $scope.removeAnswer = function (questionIndex,answerIndex) {
+                $scope.formViewModel.Questions[questionIndex].Answers.splice(answerIndex);
             };
 
         });

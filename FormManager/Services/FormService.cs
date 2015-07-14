@@ -18,6 +18,12 @@ namespace FormManager.Services
         {
             context = new FormManagerContext();
         }
+
+        public IList<Form> GetForms()
+        {
+            return context.Forms.ToList();
+        }
+
         public Form GetForm(int formId)
         {
             return context.Forms.FirstOrDefault(f => f.Id == formId);
@@ -28,11 +34,19 @@ namespace FormManager.Services
             //context.Entry(form).State = form.Id == 0 ?
             //                      EntityState.Added :
             //                      EntityState.Modified;
+            if(form.Id==0)
+            {
+                context.Forms.Add(form);
 
-            context.UpdateGraph(form, map => map
+            }
+            else { 
+                context.UpdateGraph(form, map => map
                                 .OwnedCollection(p => p.Questions, with => with
                                     .OwnedCollection(p => p.Answers)));
+            }
+            
             context.SaveChanges();
+
             return true;
         }
     }

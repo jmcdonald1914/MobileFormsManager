@@ -1,6 +1,8 @@
 ﻿using FormManager.Data;
+using FormManager.Helper;
 using FormManager.Models;
 using FormManager.Services;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +19,11 @@ namespace FormManager.Controllers
         // GET: Form
         public ActionResult Menu()
         {
-            FormManagerContext ctxt = new FormManagerContext();
+            var forms = svc.GetForms();
 
-            //ctxt.Forms.Add(new Form { Name = "Test", Description = "None" });
-            //ctxt.SaveChanges();
-
-            return View();
+            return View(forms);
         }
+
         [HttpPost]
         public ActionResult Update(Form frm)
         {
@@ -32,16 +32,41 @@ namespace FormManager.Controllers
             return View("Build",frm);
         }
 
-        public ActionResult Build()
+        public ActionResult Build(int formId)
         {
-            var frm = svc.GetForm(3);
-
+            var frm = svc.GetForm(formId);
       
             return View(frm);
         }
-       
+
+        public ActionResult AddForm()
+        {
+            int formCount = svc.GetForms().Count == 0 ? 1 : svc.GetForms().Count + 1;
+            var frm = new Form();
+
+            frm.Id = 0;
+            frm.Name = "New Form " + formCount.ToString();
+            frm.Description = "New form " + formCount.ToString();
+
+            frm.Questions = new List<Question>();
+
+            frm.Questions.Add(new Question
+            {
+                Id = 0,
+                Description = "Enter Question",
+                Answers = new List<Answer>(){
+                    new Answer{Id=0,
+                        Description="",
+                        NextQuestionId=0}
+                    }
+            });
+
+            svc.UpdateForm(frm);
+
+            return RedirectToAction("Menu");
+        }
     
-    [AllowAnonymous]
+        [AllowAnonymous]
         public JsonResult Demo()
         {
             var frm = new Form();
@@ -156,6 +181,35 @@ namespace FormManager.Controllers
 
             //jr.Data=frm;
             return Json(frm,JsonRequestBehavior.AllowGet);
+        }
+
+        [AllowAnonymous]
+        public JsonNetResult GetForm(int formId)
+        {
+            var frm = svc.GetForm(formId);
+
+            var result = new JsonNetResult
+            {
+                Data = frm,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                Settings = { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }
+            };
+
+            return result;
+        }
+
+        [AllowAnonymous]
+        public JsonNetResult GetForms()
+        {
+            var frms = svc.GetForms();
+
+            var result = new JsonNetResult
+            {
+                Data = frms,
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                Settings = { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }
+            };
+            return result;
         }
     }
 }
