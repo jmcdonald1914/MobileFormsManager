@@ -10,13 +10,13 @@ namespace FormManager.Migrations
             CreateTable(
                 "dbo.Forms",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
-                        Description = c.String(),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Name = c.String(),
+                    Description = c.String(),
+                })
                 .PrimaryKey(t => t.Id);
-            
+
         }
         
         public override void Down()

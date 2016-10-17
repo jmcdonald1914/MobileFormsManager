@@ -20,6 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -139,6 +140,22 @@
     <Compile Include="Migrations\201507130524442_Forms_1_1.cs" />
     <Compile Include="Migrations\201507130524442_Forms_1_1.Designer.cs">
       <DependentUpon>201507130524442_Forms_1_1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511300722328_Forms_1_2.cs" />
+    <Compile Include="Migrations\201511300722328_Forms_1_2.Designer.cs">
+      <DependentUpon>201511300722328_Forms_1_2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603041627469_Form_1_3.cs" />
+    <Compile Include="Migrations\201603041627469_Form_1_3.Designer.cs">
+      <DependentUpon>201603041627469_Form_1_3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603041640535_Form_1_4.cs" />
+    <Compile Include="Migrations\201603041640535_Form_1_4.Designer.cs">
+      <DependentUpon>201603041640535_Form_1_4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610170334261_Form_1_5.cs" />
+    <Compile Include="Migrations\201610170334261_Form_1_5.Designer.cs">
+      <DependentUpon>201610170334261_Form_1_5.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Answer.cs" />
@@ -996,6 +1013,18 @@
     <EmbeddedResource Include="Migrations\201507130524442_Forms_1_1.resx">
       <DependentUpon>201507130524442_Forms_1_1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511300722328_Forms_1_2.resx">
+      <DependentUpon>201511300722328_Forms_1_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603041627469_Form_1_3.resx">
+      <DependentUpon>201603041627469_Form_1_3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603041640535_Form_1_4.resx">
+      <DependentUpon>201603041640535_Form_1_4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610170334261_Form_1_5.resx">
+      <DependentUpon>201610170334261_Form_1_5.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -1011,11 +1040,11 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>51281</DevelopmentServerPort>
+          <DevelopmentServerPort>53670</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:51281/</IISUrl>
+          <IISUrl>http://localhost:53670/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

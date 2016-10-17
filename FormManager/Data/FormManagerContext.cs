@@ -10,8 +10,11 @@ namespace FormManager.Data
     public class FormManagerContext: DbContext
     {
         public FormManagerContext()
-            : base("formmanager")
-        { }
+           : base("formmanager")
+        {
+            //Database.SetInitializer<FormManagerContext>(null);
+
+        }
         public DbSet<Form> Forms { get; set; }
     }
 }

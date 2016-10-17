@@ -15,14 +15,16 @@
         <hr />
 
         <div ng-controller="FormCtrl">
-            <button class="btn btn-success" ng-click="saveForm()">Save Changes</button>
+            <button class="btn btn-success" ng-click="saveForm()">Save Changes</button> 
+            <button class="btn btn-warning" ng-click="copyForm()">Create A Copy of This Form</button>
             <hr/>
             
             <div class="form-group">
                 <label>Form name</label>
 
-                <input type="text" class="form-control" placeholder="Name" ng-model="formViewModel.Name" />
+                <input type="text" class="form-control" placeholder="Name" ng-model="formViewModel.Name" /><br/>
 
+                <label><input type="checkbox" ng-model="formViewModel.IsActive">Active</label><br>
 
             </div>
                 <div class="form-group">
@@ -33,13 +35,24 @@
 
                 </div>
                 <hr/>
+          
                 <div ng-repeat="question in formViewModel.Questions">
                     <div class="form-group">
                         <label>Question {{$index + 1}} - {{question.Description}}</label> | <button class="btn btn-danger" ng-click="removeQuestion($index)">Remove</button>
                         <hr />
                         <textarea type="text" class="form-control" placeholder="Enter Question" ng-model="question.Description" rows="5"></textarea>
+                        <hr/>
+                        <label>Script</label>
+                        <textarea type="text" class="form-control" placeholder="Enter Script" ng-model="question.Script" rows="5"></textarea>
 
-
+                        <label>Choose Color</label>
+                        <select class="form-control" ng-model="question.Color">
+                            <option value="#ffffff">Default</option>>
+                            <option style="color:#8080ff" value="#8080ff">Purple</option>
+                            <option style="color:#64cc00" value="#64cc00">Green</option>
+                            <option style="color:#ffef99" value="#ffef99">Gold</option>
+                            <option style="color:#e19d9d" value="#e19d9d">Red</option>
+                        </select>
                     </div>
                     <hr />
                     <button class="btn btn-info" ng-click="addAnswer($index)">Add Answer</button>
@@ -89,6 +102,22 @@
                 $http.post('/Form/Update', $scope.formViewModel).
                       success(function(data, status, headers, config) {
                           alert("Form Saved");
+                          // this callback will be called asynchronously
+                          // when the response is available
+                      }).
+                      error(function(data, status, headers, config) {
+                          //alert("failure");
+                          // called asynchronously if an error occurs
+                          // or server returns response with an error status.
+                      });
+                
+            };
+
+            $scope.copyForm=function () {
+               
+                $http.post('/Form/CopyForm', $scope.formViewModel).
+                      success(function(data, status, headers, config) {
+                          alert("Form Copied");
                           // this callback will be called asynchronously
                           // when the response is available
                       }).

@@ -19,6 +19,7 @@ namespace FormManager.Controllers
         // GET: Form
         public ActionResult Menu()
         {
+            //Only Get Active Forms
             var forms = svc.GetForms();
 
             return View(forms);
@@ -65,7 +66,22 @@ namespace FormManager.Controllers
 
             return RedirectToAction("Menu");
         }
-    
+
+        public ActionResult CopyForm(Form frm)
+        {
+            int formCount = svc.GetForms().Count == 0 ? 1 : svc.GetForms().Count + 1;
+
+            //var frm = svc.GetForm(formId);
+
+            frm.Id = 0;
+            frm.Name +="-COPY "+ formCount.ToString();
+            //frm.Description += "N " + formCount.ToString();
+
+            svc.UpdateForm(frm);
+
+            return RedirectToAction("Menu");
+        }
+
         [AllowAnonymous]
         public JsonResult Demo()
         {
@@ -201,7 +217,7 @@ namespace FormManager.Controllers
         [AllowAnonymous]
         public JsonNetResult GetForms()
         {
-            var frms = svc.GetForms();
+            var frms = svc.GetForms().Where(f => f.IsActive == true).ToList();
 
             var result = new JsonNetResult
             {
